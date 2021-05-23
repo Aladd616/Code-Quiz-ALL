@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/reset.css">
+    <link rel="stylesheet" href = "assets/style.css">
+    <title>Allen Quiz</title>
+</head>
+<body>
+    <p class="time" style="text-align:left;"></p>
+    <div id="timer"></div>
+    <div class="container">
+        <div id="question-box" class = "hidden">
+            <div id="question">Question</div>
+            <div id="answer-buttons" class="btn-box">
+                <button class="ans-btn btn">answer1</button>
+                <button class="ans-btn btn">answer2</button>
+                <button class="ans-btn btn">answer3</button>
+                <button class="ans-btn btn">answer4</button>
+            </div>
+        </div>
+            
+        <div class="controller">
+            <p id= "intro" class="intro-para">
+                Try to answer the following code-related questions within the time limit provided.  Keep in mind that incorrect answers will remove 10 seconds form the timer.
+            </p>
+            <button id="start-btn" class="start-btn btn">Start</button>
+            <p id="final-score" class="hidden"></p>
+            <form action="" method="get" id= "initialscore"class="high-score hidden">
+                <div class= "high-score">
+                    <label for="initials">Enter Initials:</label>
+                    <input type="text" name="initials" id="initials">
+                </div>
+                <div class="high-score">
+                    <input class= "btn" type="submit" value="Submit">
+                </div>
+            </form>
+            <button id="Go-back" class="back-btn btn hidden">Go Back</button>
+            <button id="Clear-Scores" class="clear-btn btn hidden">Clear Highscores</button>
+        </div>
+    </div>
+    <div class= "hidden"> 
+        <h2 class="titles">HighScores</h2>
+        <p><span id="high"></span></p>
+    </div>
+   
+    <!-- <pre id = "questionsPrint"></pre> -->
+      
+    <script src="assets/script.js"></script>
+</body>
+</html>
