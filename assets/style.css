@@ -2,36 +2,76 @@
 :root{
     --Button: #8A2BE2;
 }
-
+/* background color for whole page */
+body {
+    background-color:#FFF8DC;
+    
+}
+/* basic button styling */
 .btn {
     background-color: var(--Button);
     color: #FFFAF0;
+    font-size: 20px;
 }
 
 .btn:hover {
     background-color:#1E90FF;
 }
+/* styling for questions */
 #question {
     font-weight: bold;
     font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
 }
 
+/* flex-box for container holding questions and answers */
 .container {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content:center;
+    align-items:center;
+    
     
 }
-
-#intro{
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+/* timer styling */
+.time {
+    font-size: 30px;
+    color: #DC143C;
+   
 }
+/* paragraph on opeing page */
+#intro{
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 30px;
+    font-weight: bold;
+}
+/* stylign for specifically the answer buttons */
 #answer-buttons{
     display: flex;
     flex: wrap;
     flex-direction: column;
     justify-content: space-around;
     max-width: 100px;
+
+}
+/* styling for buttons on opening page */
+#opening-buttons{
+    display: flex;
+    flex: wrap;
+    flex-direction: column;
+    justify-content: space-around;
+    max-width: 100px;
+}
+/* font for high-scores */
+#highscore-list{
+    font-size: 20px;
+
 }
 
-
+/* a class added and removed to move through the various pages */
 .hidden {
     display: none;
 }

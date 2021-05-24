@@ -1,3 +1,4 @@
+// variable declaration
 var startbutton = document.getElementById("start-btn");
 var intro = document.getElementById("intro");
 var answerbuttons = document.getElementsByClassName("ans-btn");
@@ -5,20 +6,34 @@ var questionBoxElement = document.getElementById("question-box");
 var questionEL = document.getElementById("question");
 var answerBtnEl = document.getElementById("answer-buttons");
 var backButton = document.getElementById("Go-back");
-var scoreButton = document.getElementById("Clear-Scores");
-var initialsField = document.getElementById("initialscore");
+var clearScoreButton = document.getElementById("Clear-Scores");
+var initialsField = document.getElementById("initials-score");
 var finalscore = document.getElementById("final-score");
-var initialsEntry = document.getElementById("initials");
-var userScoreSpan = document.querySelector("#high");
+var highScoreButton = document.getElementById("highscores-btn");
+var scoresPage = document.getElementById("highscores")
+var goBack = document.getElementById("back-btn")
+
+// variable for the score sheet
+var scoreForm = document.querySelector("#initials-score");
+var initialsInput = document.querySelector("#initials");
+var scoreList = document.querySelector("#highscore-list")
+
+// timer variable
 var timeEl = document.querySelector(".time");
 var watch = document.getElementById("timer");
 
+// arrays for use in high score function
+var users = [];
+var final = [];
+
+// global variable declaration
 var timeLeft = 70;
 var Q =0;
 var Current = 0;
 var score = 0;
 
 
+// function to start timer
 function setTime() {
     var Interval = setInterval(function() {
         timeLeft--;
@@ -37,11 +52,15 @@ function setTime() {
     }, 1000);
 }
 
+// function calls for navigation buttons
 startbutton.addEventListener('click', startGame);
+goBack.addEventListener('click', GoBack);
 
+// function for the star button
 function startGame() {
-    console.log("start");
+    
     startbutton.classList.add("hidden");
+    highScoreButton.classList.add("hidden");
     intro.classList.add("hidden");
     questionBoxElement.classList.remove("hidden");
     Current = 0;
@@ -49,10 +68,11 @@ function startGame() {
     setTime()
 }
 
+// cycler for questions
 function cycleQuestion() {
-    console.log("called");
+
     Current++;
-    console.log(Current);
+    
     if (Current < 7) {
 
     setNextQuestion();
@@ -62,12 +82,13 @@ function cycleQuestion() {
     }
 }
 
-console.log(Current)
 
+// function calls that remove and display the next question and amswer
 function setNextQuestion() {
     resetquestion()
     questiondisplay(randomanswers[Current])
 }
+// creates the buttons from the objects to display in the answer section
 function questiondisplay(randomanswers){
     questionEL.innerText = randomanswers.question
     console.log(randomanswers.question)
@@ -86,13 +107,13 @@ function questiondisplay(randomanswers){
 }
 
 
-
+// removes the previous question and the previous answer buttons once an answer is chosen
 function resetquestion() {
     while (answerBtnEl.firstChild) {
         answerBtnEl.removeChild(answerBtnEl.firstChild)
     }
 }
-
+// determines whether an answer is correct and scales the timer that answer is wrong
 function selectAnswer(e) {
     if (Q == e.target.firstChild.textContent) {
         console.log("answer is correct")
@@ -105,17 +126,15 @@ function selectAnswer(e) {
     
         cycleQuestion();
     
-    console.log("Current",Current)
-    console.log("event", e)
-    console.log("answer", Q)
-    console.log("target", e.target.firstChild.textContent)
-
+    
 }
+
+// controls what happens when all the questions are answered or if the timer hits 0
 function GameOver() {
     questionBoxElement.classList.add("hidden");
     timeEl.classList.add("hidden");
-    scoreButton.classList.remove("hidden");
-    backButton.classList.remove("hidden");
+    // clearScoreButton.classList.remove("hidden");
+    // backButton.classList.remove("hidden");
     initialsField.classList.remove("hidden");
     finalscore.classList.remove("hidden");
     score = Math.abs(timeLeft).toString()
@@ -123,96 +142,153 @@ function GameOver() {
     console.log("score",score)
 }
 
-function logSubmit(event) {
-    localStorage.setItem("initials", initialsEntry);
-    localStorage.setItem("score", score);
-    highScore()
-}
-function highScore() {
-    initialsField.classList.add("hidden");
-    finalscore.classList.add("hidden");
-    userScoreSpan.textContent = 
+// stores the final timer value and the initials entered by the user
+function storeScores(){
+    localStorage.setItem("users", JSON.stringify(users));
+    localStorage.setItem("scores", JSON.stringify(final));
 }
 
+// function call for the high score button
+highScoreButton.addEventListener('click', pageHighScores);
 
+// allows the high scores page to render
+function pageHighScores() {
+
+    var storedusers = JSON.parse(localStorage.getItem("users"));
+    var storedscores = JSON.parse(localStorage.getItem("scores"));
+
+    if(storedusers !== null) {
+        users = storedusers
+    }
+
+    if(storedscores !== null) {
+        final = storedscores
+    }
+
+    console.log("users", users)
+    console.log("scores", final)
+
+    goBack.classList.remove("hidden");
+    startbutton.classList.add("hidden");
+    scoresPage.classList.remove("hidden");
+    highScoreButton.classList.add("hidden");
+    intro.classList.add("hidden");
+
+    scoreList.innerHTML = "";
+
+
+    for (var i = 0; i < users.length; i++){
+
+        var user = users[i];
+        var scorevalue = final[i];
+
+        var li = document.createElement("li");
+        li.textContent = user + " - " + scorevalue;
+        li.setAttribute("data-index", i);
+
+        scoreList.appendChild(li);
+    }
+}
+
+// pushes the scores and initials into seperate arrays in order to be stored
+scoreForm.addEventListener("submit", function(event) {
+
+    var initialText = initialsInput.value.trim();
+
+    users.push(initialText);
+    final.push(score);
+
+    storeScores();
+})
+// controls the go back button on the high scores page
+function GoBack() {
+    startbutton.classList.remove("hidden");
+    scoresPage.classList.add("hidden");
+    highScoreButton.classList.remove("hidden");
+    intro.classList.remove("hidden");
+    goBack.classList.add("hidden");
+}
+// question and answer objects
 var question1 = {
-    question: "string1000",
+    question: "What are containers for named values within Javascript",
     answers: [
-        {txt: '1', correct: false},
-        {txt: '2', correct: false},
-        {txt: '3', correct: true},
-        {txt: '4', correct: false}  
+        {txt: 'Strings', correct: false},
+        {txt: 'arrays', correct: false},
+        {txt: 'Objects', correct: true},
+        {txt: 'Methods', correct: false}  
     ],
-    correct: "3",
+    correct: "Objects",
 }
 
 var question2 = {
-    question: "string222",
+    question: "What programming language is the skeleton of a website",
     answers: [
-        {txt: '5', correct: true}, 
-        {txt: '6', correct: false},
-        {txt: '7', correct: false},
-        {txt: '8', correct: false}   
+        {txt: 'HTML', correct: true}, 
+        {txt: 'Python', correct: false},
+        {txt: 'Javascript', correct: false},
+        {txt: 'Rust', correct: false}   
     ],
-    correct: "5",
+    correct: "HTML",
 }
 
 var question3 = {
-    question: "string3",
+    question: "A binary variable having two possible values of 'true' and 'false' is called what",
     answers: [
-        {txt: '9',  correct: false}, 
-        {txt: '10', correct: false},
-        {txt: '11', correct: false},
-        {txt: '12', correct: true}   
+        {txt: 'generic',  correct: false}, 
+        {txt: 'string', correct: false},
+        {txt: 'integer', correct: false},
+        {txt: 'Boolean', correct: true}   
     ],
-    correct: "12",
+    correct: "Boolean",
 }
 
 var question4 = {
-    question: "string4000",
+    question: "What kind of variable is the following [1,2,3,5,7]",
     answers: [
-        {txt: '13', correct: false}, 
-        {txt: '14', correct: false},
-        {txt: '15', correct: true},
-        {txt: '16', correct: false}   
+        {txt: 'integer', correct: false}, 
+        {txt: 'string', correct: false},
+        {txt: 'array', correct: true},
+        {txt: 'Boolean', correct: false}   
     ],
-    correct: "15",
+    correct: "array",
 }
 var question5 = {
-    question: "string5",
+    question: "Within CSS what does the following denote: .face ",
     answers: [
-        {txt: '17', correct: false}, 
-        {txt: '18', correct: true},
-        {txt: '19', correct: false},
-        {txt: '20', correct: false}   
+        {txt: 'a variable', correct: false}, 
+        {txt: 'a class', correct: true},
+        {txt: 'an ID', correct: false},
+        {txt: 'a string', correct: false}   
     ],
-    correct: "18",
+    correct: "a class",
 }
 
 var question6 = {
-    question: "string6000",
+    question: "what is the html tag of an order list",
     answers: [
-        {txt: '21', correct: false}, 
-        {txt: '22', correct: true},
-        {txt: '23', correct: false},
-        {txt: '24', correct: false}   
+        {txt: '<ul>', correct: false}, 
+        {txt: '<li>', correct: true},
+        {txt: '<ol>', correct: false},
+        {txt: '<list>', correct: false}   
     ],
-    correct: "22",
+    correct: "<li>",
 }
 
 var question7 = {
-    question: "string7",
+    question: "Within CSS what does the following denote: #random",
     answers: [
-        {txt: '25', correct: true}, 
-        {txt: '26', correct: false},
-        {txt: '27', correct: false},
-        {txt: '28', correct: false}   
+        {txt: 'an ID', correct: true}, 
+        {txt: 'a class', correct: false},
+        {txt: 'a variable', correct: false},
+        {txt: 'a string', correct: false}   
     ],
-    correct: "25",
+    correct: "an ID",
 }
 
+// array of objects that stores the questions
 var questions = [question1, question2, question3, question4, question5, question6, question7];
 
+// randomizes the order of the answers
 var randomanswers = questions.map(question => {
     return {
         ...question,
@@ -220,17 +296,9 @@ var randomanswers = questions.map(question => {
     }
 })
 
-console.log(randomanswers);
-
-// document.getElementById("questionsPrint").innerHTML = JSON.stringify(randomanswers, null, 2);
-
-function createQuestion() {
-    var questions = [question1, question2, question3, question4, question5, question6, question7];
-
-    for (var i = 0; i < questions.length; i++) {}
-}
 
 
+// randomizes questions
 function random(question) {
         var displayanswers = [];
             for (i = 0; i < question.answers.length; i++) {
@@ -245,7 +313,7 @@ return displayanswers
 }
 
 
-
+// randomizes the order of the answers
 var randomanswers = questions.map(question => {
     return {
         ...question,

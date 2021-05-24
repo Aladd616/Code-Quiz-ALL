@@ -9,11 +9,15 @@
     <title>Allen Quiz</title>
 </head>
 <body>
-    <p class="time" style="text-align:left;"></p>
+    <!-- timer display -->
+    <p class="time" style="text-align:right;"></p>
     <div id="timer"></div>
+    <!-- container holding the questions and answer buttons -->
     <div class="container">
         <div id="question-box" class = "hidden">
+            <!-- question text -->
             <div id="question">Question</div>
+            <!-- answer Buttons -->
             <div id="answer-buttons" class="btn-box">
                 <button class="ans-btn btn">answer1</button>
                 <button class="ans-btn btn">answer2</button>
@@ -23,12 +27,19 @@
         </div>
             
         <div class="controller">
+            <!-- instructions on opening page -->
             <p id= "intro" class="intro-para">
                 Try to answer the following code-related questions within the time limit provided.  Keep in mind that incorrect answers will remove 10 seconds form the timer.
             </p>
-            <button id="start-btn" class="start-btn btn">Start</button>
+            <!-- buttons that appear on the opening page -->
+            <div id="opening-buttons" class="btn-box">
+                <button id="start-btn" class="start-btn btn">Start</button>
+                <button id="highscores-btn" class="score-btn btn">View HighScores</button>
+                <button id="back-btn" class="back-btn btn hidden">Go Back to start</button>
+            </div>
+            <!-- list for final score -->
             <p id="final-score" class="hidden"></p>
-            <form action="" method="get" id= "initialscore"class="high-score hidden">
+            <form method="POST" id= "initials-score"class="high-score hidden">
                 <div class= "high-score">
                     <label for="initials">Enter Initials:</label>
                     <input type="text" name="initials" id="initials">
@@ -37,16 +48,17 @@
                     <input class= "btn" type="submit" value="Submit">
                 </div>
             </form>
-            <button id="Go-back" class="back-btn btn hidden">Go Back</button>
-            <button id="Clear-Scores" class="clear-btn btn hidden">Clear Highscores</button>
+            <!-- <button id="Go-back" class="back-btn btn hidden">Go Back</button>
+            <button id="Clear-Scores" class="clear-btn btn hidden">Clear Highscores</button> -->
         </div>
     </div>
-    <div class= "hidden"> 
+    <!-- high score page -->
+    <div id="highscores" class= "hidden"> 
         <h2 class="titles">HighScores</h2>
         <p><span id="high"></span></p>
+        <ul id="highscore-list"></ul>
     </div>
    
-    <!-- <pre id = "questionsPrint"></pre> -->
       
     <script src="assets/script.js"></script>
 </body>
